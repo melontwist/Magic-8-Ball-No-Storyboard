@@ -8,6 +8,29 @@
 import UIKit
 
 class ViewController: UIViewController {
+  
+    private let topView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    private let middleView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    private let bottomView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    lazy var stackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [topView, middleView, bottomView])
+        stack.axis = .vertical
+        stack.alignment = .fill
+        stack.distribution = .fillEqually
+        return stack
+    }()
     
     private let magicBallImageView: UIImageView = {
        let imageView = UIImageView()
@@ -42,34 +65,42 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 0.36, green: 0.69, blue: 0.88, alpha: 1.00)
         
-        view.addSubview(magicBallImageView)
-        view.addSubview(titleLabel)
-        view.addSubview(askButton)
+        view.addSubview(stackView)
+        topView.addSubview(titleLabel)
+        middleView.addSubview(magicBallImageView)
+        bottomView.addSubview(askButton)
         
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         magicBallImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         askButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             
+            //Constraints for stackView
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            stackView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            stackView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            
             //Constraints for title label
             titleLabel.widthAnchor.constraint(equalToConstant: 240),
             titleLabel.heightAnchor.constraint(equalToConstant: 36),
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 86),
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
             
             
             //Constraints for magic ball imageView
             magicBallImageView.widthAnchor.constraint(equalToConstant: 250),
             magicBallImageView.heightAnchor.constraint(equalToConstant: 250),
-            magicBallImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            magicBallImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            magicBallImageView.centerXAnchor.constraint(equalTo: middleView.centerXAnchor),
+            magicBallImageView.centerYAnchor.constraint(equalTo: middleView.centerYAnchor),
             
             //Constraints for button
             askButton.widthAnchor.constraint(equalToConstant: 73),
             askButton.heightAnchor.constraint(equalToConstant: 50),
-            askButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            askButton.topAnchor.constraint(equalTo: magicBallImageView.bottomAnchor, constant: 93)
+            askButton.centerXAnchor.constraint(equalTo: bottomView.centerXAnchor),
+            askButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor),
             
         ])
         
